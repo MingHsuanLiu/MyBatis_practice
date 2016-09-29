@@ -32,25 +32,48 @@ public class TestDemo {
 	public static void main(String[] args) {
 		SqlSession session = factory.openSession();
 		int count = 0;
-		Student student = new Student();
+		Student student1 = new Student();
+		Student student2 = new Student();
+		Student student3 = new Student();
 
 		try {
-			// create the student object 
-			student.setGender("男");
-			student.setGrade("2016");
-			student.setMajor("computer science");
-			student.setName("Andy");
+			// create the student object
+			student1.setGender("man");
+			student1.setGrade("2016");
+			student1.setMajor("computer science");
+			student1.setName("Andy");
 
-			// insert into database 
-			count = session.insert("com.abc.mapper.StudentMapper.add", student);
+			// insert into database
+			count = session.insert("com.abc.mapper.StudentMapper.add", student1);
 			System.out.println("insert: " + count + " records");
-			System.out.println(student.getId());
+			System.out.println("new student ID : " + student1.getId());
+			System.out.println(
+					"==========================================================================================");
 
-			count = session.delete("com.abc.mapper.StudentMapper.deleteById", student.getId());
+			// search student record by student id
+			student2 = session.selectOne("com.abc.mapper.StudentMapper.getById", student1.getId());
+			System.out.println("student record: " + student2.toString());
+			System.out.println(
+					"==========================================================================================");
+
+			student2.setGender("woman");
+			student2.setGrade("2017");
+			student2.setMajor("art");
+			student2.setName("annie");
+			count = session.update("com.abc.mapper.StudentMapper.updateById", student2);
+			System.out.println("update: " + count + " records");
+			System.out.println("student record: " + student2.toString());
+			System.out.println(
+					"==========================================================================================");
+
+			// delete the one student records
+			count = session.delete("com.abc.mapper.StudentMapper.deleteById", student1.getId());
 			System.out.println("delete: " + count + " records");
-			
+			System.out.println(
+					"==========================================================================================");
+
 			// commit to the database, otherwise the record will not get insert
-			// into it 
+			// into it
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,5 +1,8 @@
 package com.abc.domain;
 
+import org.apache.ibatis.type.Alias;
+
+//@Alias("stu")
 public class Student {
 	private Integer id;
 	private String name;
@@ -45,6 +48,12 @@ public class Student {
 
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", gender=" + gender + ", major=" + major + ", grade=" + grade
+				+ "]";
 	}
 
 }

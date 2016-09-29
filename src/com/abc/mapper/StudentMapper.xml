@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.abc.mapper.StudentMapper">
-	<!--useGeneratedKeys="true"表明使用数据库自动生成的主键， keyColumn="id"指定Student表中主键列，keyProperty="id" 
-		表明当插入记录后，会把数据库生成的主键值设置到Student对象 的id属性中，也就是说，它指定与Student表中的主键列对应的 Student实体类中的属性是id这个属性 -->
+	<!-- insert student object to the database  -->
 	<insert id="add" useGeneratedKeys="true" keyColumn="id"
 		keyProperty="id" parameterType="com.abc.domain.Student">
 		INSERT INTO student(name, gender,major, grade) VALUES(#{name}, #{gender}, #{major}, #{grade})
 	</insert>
 	
+	<!-- delete the student record by student id  -->
 	<delete id="deleteById" parameterType="int">
 		DELETE FROM student WHERE id=#{id}
 	</delete>
+	
+	<!-- student object property --> 
+	<resultMap type="com.abc.domain.Student" id="studentMap">
+		<id property="id" column="id"/>
+		<result property="name" column="name" />
+		<result property="gender" column="gender" />
+		<result property="major" column="major" />
+		<result property="grade" column="grade" />
+	</resultMap>
+	
+	<!-- find the student by student id  -->
+	<select id="getById" parameterType="int" resultMap="studentMap">
+		SELECT id, name, gender, major, grade FROM student WHERE id=#{id}
+	</select>
+	
+	<!-- update the student info by student if  -->
+	<update id="updateById" parameterType="com.abc.domain.Student" >
+		UPDATE student SET name=#{name}, gender=#{gender}, major=#{major}, grade=#{grade} WHERE id=#{id}
+	</update>
 </mapper>
