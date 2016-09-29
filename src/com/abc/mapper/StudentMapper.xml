@@ -5,6 +5,10 @@
 		表明当插入记录后，会把数据库生成的主键值设置到Student对象 的id属性中，也就是说，它指定与Student表中的主键列对应的 Student实体类中的属性是id这个属性 -->
 	<insert id="add" useGeneratedKeys="true" keyColumn="id"
 		keyProperty="id" parameterType="com.abc.domain.Student">
-		insert into student(name, gender,major, grade) values(#{name}, #{gender}, #{major}, #{grade})
+		INSERT INTO student(name, gender,major, grade) VALUES(#{name}, #{gender}, #{major}, #{grade})
 	</insert>
+	
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM student WHERE id=#{id}
+	</delete>
 </mapper>
