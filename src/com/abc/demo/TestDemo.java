@@ -2,6 +2,8 @@ package com.abc.demo;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.abc.domain.Student;
+import com.abc.mapper.StudentMapper;
 
 public class TestDemo {
 	private static SqlSessionFactory factory = null;
@@ -35,6 +38,8 @@ public class TestDemo {
 		Student student1 = new Student();
 		Student student2 = new Student();
 		Student student3 = new Student();
+		List<Student> students = null;
+		StudentMapper studentMapper = session.getMapper(StudentMapper.class);
 
 		try {
 			// create the student object
@@ -44,34 +49,82 @@ public class TestDemo {
 			student1.setName("Andy");
 
 			// insert into database
-			count = session.insert("com.abc.mapper.StudentMapper.add", student1);
+			/**
+			 * old method - that doesnt use the mapper to do the job
+			 * count = session.insert("com.abc.mapper.StudentMapper.add", student1);
+			 */
+			count = studentMapper.add(student1);
 			System.out.println("insert: " + count + " records");
 			System.out.println("new student ID : " + student1.getId());
 			System.out.println(
 					"==========================================================================================");
 
 			// search student record by student id
-			student2 = session.selectOne("com.abc.mapper.StudentMapper.getById", student1.getId());
+			/**
+			 * old method - that doesnt use the mapper to do the job
+			 * student2 = session.selectOne("com.abc.mapper.StudentMapper.getById", student1.getId()); 
+			 */
+			
+			student2 = studentMapper.getById(student1.getId());
+			System.out.println("searching for the student records: ");
 			System.out.println("student record: " + student2.toString());
 			System.out.println(
 					"==========================================================================================");
 
+			// find all the students
+			students = studentMapper.getAll();
+			System.out.println("searching for all the student records: ");
+			for (Student student : students) {
+				System.out.println(student.toString());
+			}
+			System.out.println(
+					"==========================================================================================");
+
+			// update student record by student id
 			student2.setGender("woman");
 			student2.setGrade("2017");
 			student2.setMajor("art");
 			student2.setName("annie");
-			count = session.update("com.abc.mapper.StudentMapper.updateById", student2);
+			/**
+			 * old method - that doesnt use the mapper to do the job
+			 * count = session.update("com.abc.mapper.StudentMapper.updateById", student2);
+			 */
+			count = studentMapper.updateById(student2);
 			System.out.println("update: " + count + " records");
 			System.out.println("student record: " + student2.toString());
 			System.out.println(
 					"==========================================================================================");
 
+			// find all the students
+			students = studentMapper.getAll();
+			System.out.println("searching for all the student records: ");
+			for (Student student : students) {
+				System.out.println(student.toString());
+			}
+			System.out.println(
+					"==========================================================================================");
+
+			
 			// delete the one student records
-			count = session.delete("com.abc.mapper.StudentMapper.deleteById", student1.getId());
+			/**
+			 * old method - that doesnt use the mapper to do the job
+			 * count = session.delete("com.abc.mapper.StudentMapper.deleteById", student1.getId());
+			 */
+			count = studentMapper.deleteById(student1.getId());
 			System.out.println("delete: " + count + " records");
 			System.out.println(
 					"==========================================================================================");
 
+			// find all the students
+			students = studentMapper.getAll();
+			System.out.println("searching for all the student records: ");
+			for (Student student : students) {
+				System.out.println(student.toString());
+			}
+			System.out.println(
+					"==========================================================================================");
+
+			
 			// commit to the database, otherwise the record will not get insert
 			// into it
 			session.commit();

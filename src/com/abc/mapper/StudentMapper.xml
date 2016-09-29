@@ -3,7 +3,7 @@
 <mapper namespace="com.abc.mapper.StudentMapper">
 	<!-- insert student object to the database  -->
 	<insert id="add" useGeneratedKeys="true" keyColumn="id"
-		keyProperty="id" parameterType="com.abc.domain.Student">
+		keyProperty="id" parameterType="com.abc.domain.Student" >
 		INSERT INTO student(name, gender,major, grade) VALUES(#{name}, #{gender}, #{major}, #{grade})
 	</insert>
 	
@@ -25,6 +25,12 @@
 	<select id="getById" parameterType="int" resultMap="studentMap">
 		SELECT id, name, gender, major, grade FROM student WHERE id=#{id}
 	</select>
+	
+	<!-- find all the student  -->
+	<select id="getAll" resultMap="studentMap">
+		SELECT id, name, gender, major, grade FROM student
+	</select>
+	
 	
 	<!-- update the student info by student if  -->
 	<update id="updateById" parameterType="com.abc.domain.Student" >
