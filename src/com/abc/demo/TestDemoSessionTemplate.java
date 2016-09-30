@@ -32,6 +32,7 @@ public class TestDemoSessionTemplate {
 		StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
 		int count = studentMapper.add(student);
 		
+		
 		System.out.println(count);
 	}
 }
