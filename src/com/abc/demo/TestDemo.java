@@ -94,7 +94,7 @@ public class TestDemo {
 			System.out.println("student record: " + student2.toString());
 			System.out.println(
 					"==========================================================================================");
-
+ 
 			// find all the students
 			students = studentMapper.getAll();
 			System.out.println("searching for all the student records: ");
